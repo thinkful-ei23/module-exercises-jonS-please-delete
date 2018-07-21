@@ -52,9 +52,10 @@ function renderShoppingList() {
   //   hideCompletedItems: false
   // };
   
-  let filteredItems = STORE.items;
-  if (STORE.hideCompletedItems) {
-    filteredItems = STORE.items.filter(function(item) {
+  let filteredItems = STORE.items; // a copy of STORE.items - array of objects
+  
+  if (STORE.hideCompletedItems) {    // when STORE.hideCompletedItems === true, 
+    filteredItems = STORE.items.filter(function(item) {  // the key/value pair in STORE.items that have a checked value of false gets filtered out and will store it in the copy of STORE.items 
       return item.checked === false;
     });
   }
@@ -150,13 +151,24 @@ function handleHideCompletedItems() {
 
 
 
+
+// Search box that displays only what was searched for ========>>>
+function handleSearchBox() {
+  console.log('`handleSearchBox` ran');
+}
+// <<<========Search box that displays only what was searched for 
+
+
+
+
 // Grouped all handle functions into one function
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
-  handleHideCompletedItems()
+  handleHideCompletedItems();
+  handleSearchBox();
 }
 
 $(handleShoppingList); // when DOM is loaded, do this.
