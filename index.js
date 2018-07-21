@@ -1,12 +1,17 @@
 'use strict';
 /* global $ */
 
-const STORE = [
-  {name: 'apples', checked: false},
-  { name: 'oranges', checked: false },
-  { name: 'milk', checked: true },
-  { name: 'bread', checked: false }
-];
+const STORE = {
+  items: [
+    { name: 'apples', checked: false },
+    { name: 'oranges', checked: false },
+    { name: 'milk', checked: true },
+    { name: 'bread', checked: false }
+  ],
+  hideCompletedItems: false
+};
+  
+
 
 
 function generateItemElement(item, itemIndex, template) {
@@ -34,17 +39,34 @@ function generateShoppingItemsString(shoppingList) {
 }
 
 function renderShoppingList() {
-
   console.log('`renderShoppingList`, ran');
+  console.log('`handleHideCompletedItems` ran 2');
 
-  const shoppingListItemsString = generateShoppingItemsString(STORE);
+  //   const STORE = {
+  //   items: [
+  //     { name: 'apples', checked: false },
+  //     { name: 'oranges', checked: false },
+  //     { name: 'milk', checked: true },
+  //     { name: 'bread', checked: false }
+  //   ],
+  //   hideCompletedItems: false
+  // };
+  
+  let filteredItems = STORE.items;
+  if (STORE.hideCompletedItems) {
+    filteredItems = STORE.items.filter(function(item) {
+      return item.checked === false;
+    });
+  }
+
+  const shoppingListItemsString = generateShoppingItemsString(filteredItems);
 
   $('.js-shopping-list').html(shoppingListItemsString);
 }
 
 function addItemToShoppingList(itemName) {
   console.log(`Adding '${itemName}' to shopping list}`);
-  STORE.push({name: itemName, checked: false});
+  STORE.items.push({name: itemName, checked: false});
 }
 
 
@@ -59,9 +81,11 @@ function handleNewItemSubmit() {
   });
 }
 
+
+
 function toggleCheckedForListItem(itemIndex) {
   console.log('Toggling checked property for item at index ' + itemIndex);
-  STORE[itemIndex].checked = !STORE [itemIndex].checked;
+  STORE.items[itemIndex].checked = !STORE.items [itemIndex].checked;
 }
 
 function getItemIndexFromElement(item) {
@@ -71,6 +95,7 @@ function getItemIndexFromElement(item) {
 
 function handleItemCheckClicked() {
   $('.js-shopping-list').on('click','.js-item-toggle', event => {
+    
     console.log('`handleItemCheckedClick` ran');
 
     const itemIndex = getItemIndexFromElement(event.currentTarget);
@@ -79,12 +104,17 @@ function handleItemCheckClicked() {
   });
 }
 
+
+
+
+
+
+// Delete Item Challenge =========================>>>
 function deleteItemList (itemIndex) {
-  STORE.splice(itemIndex, 1);
+  STORE.items.splice(itemIndex, 1);
 }
 
 function handleDeleteItemClicked() {
-  
   $('.js-shopping-list').on('click', '.js-item-delete', event => {
     const itemIndex = getItemIndexFromElement(event.currentTarget);
     console.log('`handleDeleteItemClicked` ran');
@@ -92,13 +122,42 @@ function handleDeleteItemClicked() {
     renderShoppingList();
   });
 }
+// <<<======================== Delete Item Challenge
 
+
+
+
+
+// Hide Completed Items Challenge ===============>>>
+
+function handleHideCompletedItems() {
+  $('.js-shopping-list-hide').on('click', () => {
+    console.log('`handleHideCompletedItems` ran'); // test
+    STORE.hideCompletedItems = !STORE.hideCompletedItems; // changes the value to true
+    renderShoppingList();
+  });
+}
+
+// 1. first try --->
+// function handleHideCompletedItems() {
+//   $('#js-shopping-list-hide :checkbox').on('click', () => {
+//     console.log('`handleDisplayAllUnchecked` ran');
+//     $('.shopping-item__checked').closest('li').toggle();
+//   }); 
+// }
+
+// <<<=============== Hide Completed Items Challenge 
+
+
+
+// Grouped all handle functions into one function
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
+  handleHideCompletedItems()
 }
 
-$(handleShoppingList);
+$(handleShoppingList); // when DOM is loaded, do this.
 
