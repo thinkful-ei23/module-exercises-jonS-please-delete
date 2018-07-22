@@ -8,7 +8,8 @@ const STORE = {
     { name: 'milk', checked: true },
     { name: 'bread', checked: false }
   ],
-  hideCompletedItems: false
+  hideCompletedItems: false,
+  filterSearch: {}
 };
   
 
@@ -41,29 +42,24 @@ function generateShoppingItemsString(shoppingList) {
 function renderShoppingList() {
   console.log('`renderShoppingList`, ran');
   console.log('`handleHideCompletedItems` ran 2');
+  console.log('`handleFilterSearchBox` ran 2');
 
-  //   const STORE = {
-  //   items: [
-  //     { name: 'apples', checked: false },
-  //     { name: 'oranges', checked: false },
-  //     { name: 'milk', checked: true },
-  //     { name: 'bread', checked: false }
-  //   ],
-  //   hideCompletedItems: false
-  // };
-  
   let filteredItems = STORE.items; // a copy of STORE.items - array of objects
-  
   if (STORE.hideCompletedItems) {    // when STORE.hideCompletedItems === true, 
-    filteredItems = STORE.items.filter(function(item) {  // the key/value pair in STORE.items that have a checked value of false gets filtered out and will store it in the copy of STORE.items 
+    filteredItems = STORE.items.filter(function(item) {  // the key/value pair in STORE.items that has a checked value of false gets filtered out and gets stored it in the copy of STORE.items 
       return item.checked === false;
     });
   }
-
   const shoppingListItemsString = generateShoppingItemsString(filteredItems);
-
   $('.js-shopping-list').html(shoppingListItemsString);
+
+
 }
+
+
+
+
+
 
 function addItemToShoppingList(itemName) {
   console.log(`Adding '${itemName}' to shopping list}`);
@@ -153,11 +149,46 @@ function handleHideCompletedItems() {
 
 
 // Search box that displays only what was searched for ========>>>
-function handleSearchBox() {
-  console.log('`handleSearchBox` ran');
-}
-// <<<========Search box that displays only what was searched for 
+function handleFilterSearchBox() {
+  $('.js-search-button').on('click', function(event) {
+    event.preventDefault();
 
+    const searchText = $('.js-search-item').val();
+
+
+    if(searchText !== '') {
+      const filteredText = STORE.items.filter(x => function(x) {
+        return x.item === searchText || x.item.toLowerCase() === searchText;
+      });
+      const shoppingListItemsString2 = generateShoppingItemsString(filteredText);
+      $('.js-shopping-list').html(shoppingListItemsString2);
+    }
+    $('.search-for-item').val('');
+  });
+}
+    
+
+// for (let i = 0; i < STORE.items.length; i++) {
+//   let a = STORE.items[i].name;
+//   if (a.toUpperCase().indexOf(searchText) > -1) {
+//     console.log('FOREACH WORKS!!!!');
+//   } else {
+//     console.log(false);
+//   }
+// }
+
+
+
+//     STORE.items.each(i => function() {
+//       let a = STORE.items[i].name;
+//       let searchText = $('.js-search-item').val().toUpperCase();
+//       if (a.toUpperCase().indexOf(searchText) > -1) {
+//         console.log('FOREACH WORKS!!!!');
+//       }
+//     });
+//   });
+// }
+// <<<========Search box that displays only what was searched for 
 
 
 
@@ -168,7 +199,7 @@ function handleShoppingList() {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleHideCompletedItems();
-  handleSearchBox();
+  handleFilterSearchBox();
 }
 
 $(handleShoppingList); // when DOM is loaded, do this.
