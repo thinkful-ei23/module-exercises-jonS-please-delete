@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Shopping List</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
+<html lang="en">
 
+<head>
+  <title> Shopping List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
+
 <body>
   <div class="container">
     <h1>Shopping List</h1>
@@ -18,27 +20,22 @@
       <input type="text" name="shopping-list-entry" class="js-shopping-list-entry" placeholder="e.g., broccoli">
       <button type="submit">Add item</button>
     </form>
-    
-    <!-- new form that contains hide checkbox and search box -->
-    <form id="js-shopping-list-filter">
-      <div class="checkbox">
-        <label for="shopping-list-hide">Hide checked items</label>
-        <input type="checkbox" class="js-shopping-list-hide">
-      </div>
-      
-      <div class="search">
-        <input type="text" class="search-item js-search-item" placeholder="Search for items">
-        <button type="submit" class="js-search-button"><i class="fa fa-search"></i></button>
-      </div>
+    <form id="js-shopping-list-search-form">
+      <label for="shopping-list-entry">Search an item</label>
+      <input type="text" name="shopping-list-search" class="js-shopping-list-search" placeholder="e.g., broccoli">
+
+
+      <button type="submit" class="js-submit-search">Search for item</button>
+      <button type="submit" class="js-clear-search">Clear</button>
+
+      <br>      
+      <input type="checkbox" class="unchecked-only-toggle js-unchecked-only-toggle"> Hide all checked items
     </form>
-    <!-- new form that contains hide checkbox and search box -->
-
     <ul class="shopping-list js-shopping-list">
-
     </ul>
   </div>
-
   <script src="//code.jquery.com/jquery.min.js"></script>
-  <script src="index.js"></script>
+  <script type="text/javascript" src="index.js"></script>
 </body>
+
 </html>
